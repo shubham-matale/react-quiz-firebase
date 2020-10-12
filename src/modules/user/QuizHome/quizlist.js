@@ -30,7 +30,6 @@ export default function QuizList() {
             let docData=doc.data();
             let startDate = docData['startDate'].split('-');
             let endDate=docData['endDate'].split('-');
-            console.log(new Date(parseInt(startDate[0]),parseInt(startDate[1]-1),parseInt(startDate[2])), new Date(parseInt(endDate[0]),parseInt(endDate[1]-1),parseInt(endDate[2])));
               if(new Date(parseInt(startDate[0]),parseInt(startDate[1]-1),parseInt(startDate[2]))<=new Date() &&new Date(parseInt(endDate[0]),parseInt(endDate[1]-1),parseInt(endDate[2]))>=new Date())
                 allUserData.push({id:doc.id, ...doc.data()})
               
