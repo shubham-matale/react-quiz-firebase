@@ -199,6 +199,71 @@ export default function QuizDetails(props){
           />
         </Card>
           </Box>
+          {selectedQuiz?.result?
+          <Box mt={3}>
+          <Card>
+              <CardHeader
+              title="Quiz Results"
+              />
+          </Card>
+      <Card  >
+      <PerfectScrollbar>
+        <Box minWidth={240} className={classes.tableResponsive}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  Name
+                </TableCell>
+                <TableCell>
+                  Score
+                </TableCell>
+                <TableCell>
+                  Contact Number
+                </TableCell>
+                <TableCell>
+                  Feedback
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {selectedQuiz?.result?selectedQuiz.result.slice(0, limit).map((Quiz) => (
+                <TableRow
+                  hover
+                  key={Quiz.name}
+                  
+                >
+                  <TableCell>
+                    {Quiz.name}
+                  </TableCell>
+                  <TableCell>
+                    {Quiz.score}
+                  </TableCell>
+                  
+                  <TableCell>
+                    {Quiz.contactNumber}
+                  </TableCell>
+                  <TableCell>
+                   {Quiz.feedback}
+                  </TableCell>
+                </TableRow>
+              )):''}
+            </TableBody>
+          </Table>
+        </Box>
+      </PerfectScrollbar>
+      <TablePagination
+        component="div"
+        count={selectedQuiz?.questions?selectedQuiz.questions.length:0}
+        onChangePage={handlePageChange}
+        onChangeRowsPerPage={handleLimitChange}
+        page={page}
+        rowsPerPage={limit}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
+    </Card>
+      </Box>
+      :''}
         </Container>
       </SideBar>
         
