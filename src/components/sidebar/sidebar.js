@@ -22,6 +22,7 @@ import AllOutIcon from '@material-ui/icons/AllOut';
 
 const drawerWidth = 240;
 const smallDrawer = 57;
+const windowWidth = window.innerWidth
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -91,15 +92,15 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(1),
     [theme.breakpoints.up("sm")]: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`
+      width: `calc(100% - ${drawerWidth}px)`,
+      maxWidth: `calc(100% - ${smallDrawer}px)`,
+      padding: 0,
     },
     [theme.breakpoints.up('xs')]: {
       padding: 0,
+      maxWidth: `calc(100% - ${smallDrawer}px)`
     },
-    [theme.breakpoints.up('sm')]: {
-      padding: 0,
-    },
+    maxWidth:`calc(100% - ${smallDrawer}px)`
   },
   maxWidthMobile:{
     [theme.breakpoints.up('xs')]: {
@@ -108,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       maxWidth: `calc(100% - ${smallDrawer}px)`,
     },
+    maxWidth:"100%"
   }
 }));
 
@@ -202,7 +204,7 @@ export default function SideBar(props) {
         
         
       </Drawer>
-      <main className={classes.content, classes.maxWidthMobile}>
+      <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid container justify={"center"} >
         <Grid item xs={12} md={12} style={{ padding: "8px" }}>

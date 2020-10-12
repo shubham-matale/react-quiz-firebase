@@ -76,7 +76,7 @@ function QuizGame() {
         <Box
         display="flex"
         justifyContent="flex-end"
-        mb={10}
+        mb={2}
       >
         <Button
           color="primary"
