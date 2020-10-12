@@ -4,9 +4,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import { Button, } from '@material-ui/core';
+import { Button, Chip, Tooltip, Card, CardActionArea, CardActions,CardContent,Divider  } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 
+const windowWidth = window.innerWidth
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -17,14 +18,22 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 500,
   },
   image: {
-    width: 128,
-    height: 128,
+    [theme.breakpoints.down("sm")]: {
+      width: `calc(100% - ${windowWidth}px)`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: "100%",
+    },
+    width: 256,
+    
+
   },
   img: {
     margin: 'auto',
     display: 'block',
     maxWidth: '100%',
     maxHeight: '100%',
+    
   },
   backdrop: {
       zIndex: theme.zIndex.drawer + 1,
@@ -46,8 +55,11 @@ export default function QuizGrid(props) {
   return (
     <div className={classes.root}>
       
-      <Paper className={classes.paper}>
-        <Grid container spacing={1}>
+      
+        <Card className={classes.paper}>
+          <CardActionArea>
+          <CardContent>
+          <Grid container spacing={1}>
           <Grid item>
             <ButtonBase className={classes.image}>
               <img className={classes.img} alt="complex" src="https://images.cnbctv18.com/wp-content/uploads/2018/05/10.jpg" />
@@ -66,20 +78,30 @@ export default function QuizGrid(props) {
                   ID: {props.data.id}
                 </Typography>
               </Grid>
-              <Grid item>
-                <Button color="secondary" style={{ cursor: 'pointer' }} onClick={()=>{
+              <Grid item >
+             <Chip label={props.data.questionsCount+" Questions"}></Chip> 
+            </Grid>
+              
+            </Grid>
+            
+          </Grid>
+          
+          
+        </Grid>
+
+          </CardContent>
+          <Divider></Divider>
+          </CardActionArea>
+          <CardActions>
+          <Button variant="outlined" color="primary" style={{ cursor: 'pointer' }} onClick={()=>{
                     play()
                 }}> 
                   Play
                 </Button>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle1">{props.data.questionsCount} <br/>Questions</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
+          </CardActions>
+        </Card>
+        
+      
     </div>
   );
 }
