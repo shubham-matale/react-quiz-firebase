@@ -16,18 +16,18 @@ function Application() {
       
       <Switch>
         
-        <Route path='/user/allQuizs' component={QuizList} exact/> 
-        <Route path='/user/playQuiz' component={QuizGame} exact/> 
-        <Route path='/admin' component={AdminHome} exact/>
+        <PrivateRoute path='/user/allQuizs' component={QuizList} exact/> 
+        <PrivateRoute path='/user/playQuiz' component={QuizGame} exact/> 
+        <PrivateRoute path='/admin' component={AdminHome} exact/>
         <Route path='/' component={Login} exact></Route>
-        <Route path='/admin/allQuiz' component={QuizHome} exact/>
-        <Route path='/admin/addQuiz' component={AddQuiz} exact/>
-        <Route path='/admin/quizDetails' component={QuizDetails} exact/>
-        <Route path='/admin/addNewQuestion' component={AddNewQuestion} exact/>
-        <Route path='/admin/allUser' component={ AllUsers } exact/>
+        <PrivateRoute path='/admin/allQuiz' component={QuizHome} exact/>
+        <PrivateRoute path='/admin/addQuiz' component={AddQuiz} exact/>
+        <PrivateRoute path='/admin/quizDetails' component={QuizDetails} exact/>
+        <PrivateRoute path='/admin/addNewQuestion' component={AddNewQuestion} exact/>
+        <PrivateRoute path='/admin/allUser' component={ AllUsers } exact/>
         <Route path='/login' component={Login}  exact />
         <Route path='/register' component={Register} exact />  
-        <Route path='/resetPassword' component={PasswordReset} exact/> 
+        {/* <Route path='/resetPassword' component={PasswordReset} exact/>  */}
         
         
       </Switch>

@@ -25,6 +25,12 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    [theme.breakpoints.up('xs')]: {
+      paddingLeft: 0,
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: 0,
+    },
   },
   title: {
     flexGrow: 1,
@@ -83,7 +89,17 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`
+    },
+    [theme.breakpoints.up('xs')]: {
+      padding: 0,
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: 0,
+    },
   },
 }));
 
