@@ -51,6 +51,34 @@ const QuizService = {
         } catch (error) {
             alert('Something went wrong. Reload Page');
         }
+    },
+
+    updateQuizResult(score,contactNumber,feedback){
+        let quizData=JSON.parse(localStorage.getItem('selectedQuizForPlay'));
+        let userData={};
+        userData['name']=AuthService.getUserName();
+        userData['id']=AuthService.getUserId();
+        userData['score']=score;
+        userData['contactNumber']=contactNumber;
+        userData['feedback']=feedback;
+        if(quizData.hasOwnProperty('result')){
+            quizData['result'].push(userData)
+            console.log(quizData['result'])
+        }else{
+            quizData['result']=[];
+            quizData['result'].push(userData)
+        }
+        let newQuizData = JSON.parse(JSON.stringify(quizData));
+
+        console.log(newQuizData)
+        
+        try {
+            firestore.collection('quizes').doc(quizData['id']).update(newQuizData);
+            window.location.pathname="/user/allQuizs"
+        } catch (error) {
+            console.log(error)
+            alert('Something went wrong. Reload Page');
+        }
     }
 
 }

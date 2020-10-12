@@ -120,7 +120,7 @@ export default function QuizDetails(props){
                   {selectedQuiz?.questions?selectedQuiz.questions.slice(0, limit).map((Quiz) => (
                     <TableRow
                       hover
-                      key={Quiz.id}
+                      key={Quiz.question}
                       
                     >
                       <TableCell>

@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import { Button } from '@material-ui/core';
+import { Button, } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
     maxHeight: '100%',
   },
+  backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
+  
 }));
 
 export default function QuizGrid(props) {
@@ -33,13 +38,14 @@ export default function QuizGrid(props) {
   const classes = useStyles();
   const play=() => {
     localStorage.setItem('selectedQuizForPlay',JSON.stringify(props.data));
-    
     window.location.pathname="/user/playQuiz"
     
   }
+  
 
   return (
     <div className={classes.root}>
+      
       <Paper className={classes.paper}>
         <Grid container spacing={1}>
           <Grid item>

@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import {Drawer,Grid} from '@material-ui/core';
+import {Drawer,Grid,Link,Box,Button} from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -15,8 +15,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+
+import {AuthService} from '../../services';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AllOutIcon from '@material-ui/icons/AllOut';
 
 const drawerWidth = 240;
 
@@ -120,7 +122,7 @@ export default function SideBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Quiz App
           </Typography>
         </Toolbar>
       </AppBar>
@@ -143,23 +145,38 @@ export default function SideBar(props) {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        
+        
+        { AuthService.isUserAdmin()?
+        <Box>
+        <Link href="/admin/allQuiz">
+          <ListItem button key='Admin All Quiz'>
+              <ListItemIcon><AllOutIcon /> </ListItemIcon>
+              <ListItemText primary="Admin All Quiz" />
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        </Link>
+        <Divider /> </Box>:
+        <Box>
+        <Link href="/user/allQuizs">
+          <ListItem button key='User All Quiz'>
+              <ListItemIcon><AllOutIcon /> </ListItemIcon>
+              <ListItemText primary="User All Quiz" />
             </ListItem>
-          ))}
-        </List>
+        </Link>
+        
+        <Divider/>
+        </Box>
+        }
+       
+          <ListItem button onClick={()=>{
+            AuthService.logout();
+
+          }} key='Logout'>
+              <ListItemIcon><ExitToAppIcon /> </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItem>
+        
+        
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />

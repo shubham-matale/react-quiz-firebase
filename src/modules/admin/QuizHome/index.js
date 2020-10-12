@@ -8,7 +8,7 @@ import {firestore} from '../../../firebase';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import SideBar from '../../../components/sidebar/sidebar';
 import {
-  Card, Checkbox, Table, TableBody,Button,  TableCell,  TableHead,  TablePagination,  TableRow,  Typography} from '@material-ui/core';
+  Card, Checkbox, Table, TableBody,Button,  TableCell,  TableHead,  TablePagination,  TableRow,  Typography,Backdrop,CircularProgress} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
-  }
+  },backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 const QuizHome = (props) => {
@@ -27,6 +30,10 @@ const QuizHome = (props) => {
   const [quizData,setQuizData] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = React.useState(true);
+    const handleClose = () => {
+      setOpen(false);
+    };
   // console.log(quizData[0]['id'])
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -48,12 +55,16 @@ const QuizHome = (props) => {
           // doc.data() is never undefined for query doc snapshots
           allUserData.push({id:doc.id, ...doc.data()})
       });
+      handleClose();
       setQuizData(allUserData);
     });
   });
 
   return (
     <SideBar>
+      <Backdrop className={classes.backdrop} open={open} >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Container maxWidth={false}>
       <div>
       <Box

@@ -23,6 +23,10 @@ export default makeStyles(theme => ({
     close: {
         padding: theme.spacing(0.5),
     },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+      },
 
    
 }));

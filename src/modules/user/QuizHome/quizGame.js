@@ -5,7 +5,8 @@ import { SideBar } from "../../../components";
 import {
   Avatar,  Box,  Button,  Card,  CardActions,  CardContent,  Divider,  Typography,ButtonGroup,  makeStyles, CardHeader
 } from '@material-ui/core';
-import { QuestionCard } from "./GameComponet";
+import { QuestionCard,SubmitForm  } from "./GameComponet";
+import {QuizService} from '../../../services';
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
   city: 'Los Angeles',
@@ -27,12 +28,39 @@ function QuizGame() {
 
   
   const [currentIndex, serCurrentIndex] = useState(0);
-  
-  // console.log(quizData[0]['id'])
- 
+  const [openSubmitForm, setOpenSubmitForm]=useState(false);
+  const [userInfo,setUserInfo]=useState({});
+  const [userScore,setUserScore]=useState(0);
   const [loader,setLoader] = useState(false);
   const [selectedQuiz, setSelectedQuiz]=useState([]);
   const [currentQuestion,setCurrentQuestion] = useState({}); 
+
+  const handleAnswer = (index,ans)=>{
+    let quizData=selectedQuiz;
+    quizData[index]['userAns']=quizData[index][ans];
+    setSelectedQuiz(quizData);
+  }
+
+  const calculateScore= ()=>{
+    let quizData=selectedQuiz;
+    let userCorrectAnsCount = 0;
+    let totalQuestionCount = quizData.length;
+    for(let data of quizData){
+      if(data['correctAns']==data['userAns']){
+        userCorrectAnsCount++;
+      }
+    }
+    setUserScore(userCorrectAnsCount);
+    setOpenSubmitForm(true);
+
+    // alert('Your score is '+userCorrectAnsCount+' out of'+totalQuestionCount);
+  }
+
+  const handleUserInfo=(values)=>{
+    setUserInfo(values);
+    QuizService.updateQuizResult(userScore,values['contactNumber'],values['feedback']);
+  }
+
   useEffect(() => {
       const localRepoItems = localStorage.getItem('selectedQuizForPlay');
       console.log(localRepoItems)
@@ -45,10 +73,22 @@ function QuizGame() {
   
     return (
       <SideBar>
-        
+        <Box
+        display="flex"
+        justifyContent="flex-end"
+        mb={10}
+      >
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={calculateScore}
+        >
+          Submit Quiz
+        </Button>
+      </Box>
         <Card >
           <CardHeader
-            title={"Question no : "+(currentIndex+1)}
+            title={"Question no : "+(currentIndex+1)+" out of "+selectedQuiz.length}
           />
       <CardContent>
         <Box
@@ -56,8 +96,8 @@ function QuizGame() {
           display="flex"
           flexDirection="row"
         >{selectedQuiz.map((data,index)=>(
-          <Box style={{display: currentIndex==index? 'block' : 'none' }}>
-          <QuestionCard key={index} currentIndex={index} data={data}/>
+          <Box style={{display: currentIndex==index? 'block' : 'none',margin:2 }} boxShadow={3}>
+          <QuestionCard key={index} onAnswerChange={handleAnswer} currentIndex={index} data={data}/>
           </Box>
         ))}
          
@@ -69,7 +109,7 @@ function QuizGame() {
           alignItems="center"
           display="flex"
           flexDirection="column"
-        >
+      >
       <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
       <Button  style={{display: currentIndex==0? 'none' : 'block' }} onClick={()=>{
         if(currentIndex>=1){
@@ -87,6 +127,7 @@ function QuizGame() {
     </Box>
       </CardActions>
     </Card>
+    <SubmitForm openForm={openSubmitForm} setUserInfo={handleUserInfo} closeForm={()=>{setOpenSubmitForm(false)}}></SubmitForm>
       </SideBar>
 
     );

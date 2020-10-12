@@ -7,16 +7,36 @@ import useStyles from '../style';
 import {UserContext} from '../../../providers/userProvider';
 import { auth, generateUserDocument } from "../../../firebase";
 import { Redirect } from 'react-router-dom';
+import { AuthService } from '../../../services'
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 function Login() {
-  const user = useContext(UserContext);
-  var classes = useStyles();
+
+  const classes = useStyles();
+  const [openLoader, setOpenLoader] = React.useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   
   const [open, setOpen] = React.useState(false);
   const [messageInfo, setMessageInfo] = React.useState(undefined);
+  
+  const handleLoaderToggle = () => {
+    setOpenLoader(!openLoader);
+  };
+
+  if(AuthService.isLoggedIn()){
+    if(AuthService.isUserAdmin()){
+      window.location.pathname="/admin/allQuiz"
+    }else{
+      window.location.pathname="/user/allQuizs"
+    }
+  }
+  
+  // const user = useContext(UserContext);
+  
 
 
   const handleClose = (event, reason) => {
@@ -44,7 +64,13 @@ function Login() {
 
   const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).catch(error => {
+
+    auth.signInWithEmailAndPassword(email, password).then(function(result) {
+     console.log(result.user.uid)
+      AuthService.getUserDetails(result.user.uid)
+      
+      
+    }).catch(error => {
       setMessageInfo(error.message);
       setOpen(true);
       console.error("Error signing in with password and email", error.message);
@@ -53,7 +79,7 @@ function Login() {
 
   return (
     <div>
-       { user ? (<Redirect push to="/"/>) : null }
+       
       <AppBar position="static" alignitems="center" color="primary">
         <Toolbar>
           <Grid container justify="center" wrap="wrap">
@@ -63,6 +89,9 @@ function Login() {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Backdrop className={classes.backdrop} open={openLoader} >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container
         align="center"
         justify="center"
@@ -120,6 +149,7 @@ function Login() {
                         className={classes.buttonBlock}
                         disableElevation
                         onClick={event => {
+                          handleLoaderToggle();
                           signInWithEmailAndPasswordHandler(event, email, password);
                         }}
                       >

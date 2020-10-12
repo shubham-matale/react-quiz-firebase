@@ -204,7 +204,7 @@ export default function AddNewQuestion(props){
                     type="submit"
                     variant="contained"
                   >
-                    Add Quiz
+                    Add Quiz Qustions
                   </Button>
                 </Box>
                 

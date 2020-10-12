@@ -22,7 +22,19 @@ const AuthService = {
         }
         return false;
     },
+    
+    loginUser(){
+      
+    },
 
+    logout(){
+      auth.signOut().then(function() {
+        localStorage.clear()
+        window.location.pathname="/"
+      }, function(error) {
+        // An error happened.
+      });
+    },
 
      generateUserDocument (user, additionalData) {
         if (!user) return;
@@ -38,25 +50,42 @@ const AuthService = {
               role:"normalUser",
               ...additionalData
             });
+            localStorage.setItem('userDetails',JSON.stringify({displayName,
+              email,
+              photoURL,
+              role:"normalUser",
+              ...additionalData}))
+            window.location.pathname="/user/allQuizs";
+
           } catch (error) {
             console.error("Error creating user document", error);
           }
         }
-        let uid = user.uid;
-        if (!uid) return null;
-        try {
-          const userDocument =  firestore.doc(`users/${uid}`).get();
-          userDocument = {uid, ...userDocument};
-          
-          return userDocument;
-        } catch (error) {
-          console.error("Error fetching user", error);
-        }
         
-      }
+      },
 
-     
-      
+      getUserDetails(uid){
+        firestore.collection('users').doc(uid).get().then(function(doc) {
+          if (doc.exists) {
+            let  userDocument = doc.data();
+            userDocument = {uid, ...userDocument};
+            console.log(userDocument)
+            localStorage.setItem('userDetails',JSON.stringify(userDocument))
+            if(userDocument.hasOwnProperty('role')&&userDocument['role']=='admin'){
+              window.location.pathname="/admin/allQuiz"
+            }else{
+              window.location.pathname="/user/allQuizs"
+            }
+            
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+         
+      }
       
 }
 

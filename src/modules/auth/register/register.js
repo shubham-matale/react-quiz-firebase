@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, AppBar, Toolbar, Link, Typography, Button, TextField, Fade, Paper,Snackbar , IconButton } from "@material-ui/core";
+import { Grid, AppBar, Toolbar, Link, Typography, Button, TextField, Fade, Paper,Snackbar , IconButton, CircularProgress,Backdrop } from "@material-ui/core";
 import Box from '@material-ui/core/Box';
 import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from "react-router-dom";
@@ -11,6 +11,7 @@ import AuthService from '../../../services/authService';
 function Register(){
   var classes = useStyles();
   const [email, setEmail] = useState('');
+  const [openLoader, setOpenLoader] = React.useState(false);
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState(null);
@@ -18,7 +19,9 @@ function Register(){
   const [open, setOpen] = React.useState(false);
   const [messageInfo, setMessageInfo] = React.useState(undefined);
 
-
+  const handleLoaderToggle = () => {
+    setOpenLoader(!openLoader);
+  };
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -47,8 +50,18 @@ function Register(){
   const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
     event.preventDefault();
     try{
+      
       const {user} = await auth.createUserWithEmailAndPassword(email, password);
       AuthService.generateUserDocument(user, {displayName});
+      // console.log(result.user.uid)
+      // let userDetails =  AuthService.getUserDetails(result.user.uid)
+      // localStorage.getItem('userDetails',JSON.stringify(userDetails));
+      // console.log(userDetails);
+      // if(userDetails.hasOwnProperty('role')&&userDetails['role']=='admin'){
+      //   window.location.pathname="/admin/allQuiz"
+      // }else{
+      //   window.location.pathname="/user/allQuizs"
+      // }
     }
     catch(error){
       setError('Error Signing up with email and password');
@@ -63,6 +76,9 @@ function Register(){
 
     return (
       <div>
+        <Backdrop className={classes.backdrop} open={openLoader} >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <AppBar position="static" alignitems="center" color="primary">
         <Toolbar>
           <Grid container justify="center" wrap="wrap">
@@ -141,6 +157,7 @@ function Register(){
                         className={classes.buttonBlock}
                         disableElevation
                         onClick={event => {
+                          handleLoaderToggle();
                           createUserWithEmailAndPasswordHandler(event, email, password);
                         }}
                       >

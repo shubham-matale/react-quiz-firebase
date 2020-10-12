@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, Radio,RadioGroup, FormControl,CardContent,FormLabel,FormControlLabel, Grid } from '@material-ui/core';
 
 export default function QuestionCard(props) {
-    const [value, setValue] = React.useState('optionA');
+    const [value, setValue] = React.useState('');
 
     const handleChangeRadio = (event) => {
         setValue(event.target.value);
         let currentQuizData = selectedQuiz;
+        props.onAnswerChange(props.currentIndex,event.target.value);
         // currentQuizData['questions'][props.currentIndex]['userAns']=event.target.value;
         // localStorage.setItem('selectedQuizForPlay',JSON.stringify(currentQuizData))
     };

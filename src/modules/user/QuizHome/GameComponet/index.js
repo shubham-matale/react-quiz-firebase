@@ -1,3 +1,3 @@
 import  QuestionCard  from "./questionComponet";
-
-export {QuestionCard};
+import SubmitForm from './submitForm';
+export {QuestionCard, SubmitForm};

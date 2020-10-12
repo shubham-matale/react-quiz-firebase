@@ -19,6 +19,7 @@ function Application() {
         <Route path='/user/allQuizs' component={QuizList} exact/> 
         <Route path='/user/playQuiz' component={QuizGame} exact/> 
         <Route path='/admin' component={AdminHome} exact/>
+        <Route path='/' component={Login} exact></Route>
         <Route path='/admin/allQuiz' component={QuizHome} exact/>
         <Route path='/admin/addQuiz' component={AddQuiz} exact/>
         <Route path='/admin/quizDetails' component={QuizDetails} exact/>
