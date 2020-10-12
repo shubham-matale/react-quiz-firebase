@@ -10,6 +10,7 @@ import SideBar from '../../../components/sidebar/sidebar';
 import {
   Card, Checkbox, Table, TableBody,Button,  TableCell, Grid,  TableHead,  TablePagination,  TableRow,  Typography,Backdrop,CircularProgress,Paper} from '@material-ui/core';
 
+  const width=57;
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -38,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       paddingLeft:0
     },
+  },
+  tableResponsive:{
+    overflowX:"auto"
   }
 }));
 
@@ -107,7 +111,7 @@ const QuizHome = (props) => {
         <Box mt={3}>
         <Card  >
         <PerfectScrollbar>
-          <Box minWidth={240}>
+          <Box minWidth={240} className={classes.tableResponsive}>
             <Table>
               <TableHead>
                 <TableRow>

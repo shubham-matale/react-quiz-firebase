@@ -18,13 +18,53 @@ import moment from 'moment';
 import {firestore} from '../../../firebase';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
+const  width = 57;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.dark,
+    minHeight: '100%',
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3)
+  },backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },  root: {
+    display: 'flex',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'hide',
+  },
+  table: {
+    minWidth: 340,
+  },
+  tableCell: {
+    paddingRight: 4,
+    paddingLeft: 5
+  },
+  nopad:{
+    [theme.breakpoints.up("xs")]: {
+      paddingLeft:0
+    },
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft:0
+    },
+  },
+  tableResponsive:{
+    [theme.breakpoints.up("xs")]: {
+      maxWidth:`calc(100% - ${width}px)`
+    },
+    [theme.breakpoints.up("sm")]: {
+      maxWidth:`calc(100% - ${width}px)`
+    },
+    overflowX:"auto"
+  }
 
+}));
 
 
 
 export default function QuizDetails(props){
     
-
+  const classes = useStyles();
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
     // console.log(quizData[0]['id'])
@@ -92,7 +132,7 @@ export default function QuizDetails(props){
               </Card>
           <Card  >
           <PerfectScrollbar>
-            <Box minWidth={1050}>
+            <Box minWidth={240} className={classes.tableResponsive}>
               <Table>
                 <TableHead>
                   <TableRow>

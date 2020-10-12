@@ -21,7 +21,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AllOutIcon from '@material-ui/icons/AllOut';
 
 const drawerWidth = 240;
-
+const smallDrawer = 57;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -101,6 +101,14 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
     },
   },
+  maxWidthMobile:{
+    [theme.breakpoints.up('xs')]: {
+      maxWidth: `calc(100% - ${smallDrawer}px)`,
+    },
+    [theme.breakpoints.up('sm')]: {
+      maxWidth: `calc(100% - ${smallDrawer}px)`,
+    },
+  }
 }));
 
 export default function SideBar(props) {
@@ -194,7 +202,7 @@ export default function SideBar(props) {
         
         
       </Drawer>
-      <main className={classes.content}>
+      <main className={classes.content, classes.maxWidthMobile}>
         <div className={classes.toolbar} />
         <Grid container justify={"center"} >
         <Grid item xs={12} md={12} style={{ padding: "8px" }}>
